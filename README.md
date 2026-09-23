@@ -50,5 +50,3 @@ Untuk development dengan hot-reload: `npm run dev` di terminal terpisah selagi `
 |---|---|---|
 | Super Admin | superadmin@poltekkes.ac.id | password |
 | Admin Operator | admin@poltekkes.ac.id | password |
-
-```
