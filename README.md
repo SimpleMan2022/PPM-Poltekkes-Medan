@@ -30,17 +30,15 @@ npm install
 cp .env.example .env
 php artisan key:generate
 
-# 3. Database (SQLite bawaan — buat filenya dulu bila belum ada)
-touch database/database.sqlite
 php artisan migrate --seed
 
-# 4. Symlink storage agar file upload bisa diakses
+# 3. Symlink storage agar file upload bisa diakses
 php artisan storage:link
 
-# 5. Build aset frontend
+# 4. Build aset frontend
 npm run build
 
-# 6. Jalankan
+# 5. Jalankan
 php artisan serve          # http://127.0.0.1:8000
 ```
 
@@ -53,12 +51,4 @@ Untuk development dengan hot-reload: `npm run dev` di terminal terpisah selagi `
 | Super Admin | superadmin@poltekkes.ac.id | password |
 | Admin Operator | admin@poltekkes.ac.id | password |
 
-Segera ganti password kedua akun ini setelah instalasi.
-
-## Perintah yang sering dipakai
-
-```bash
-php artisan migrate --seed   # migrasi + isi data awal/contoh
-php artisan view:clear       # bersihkan cache view setelah ubah Blade (bila tampilan tidak berubah)
-npm run build                # build ulang CSS/JS production
 ```
