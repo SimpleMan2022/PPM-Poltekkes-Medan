@@ -33,11 +33,8 @@
 <section id="sambutan" class="py-10 sm:py-16 md:py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
-            <div class="shrink-0 mx-auto md:mx-0">
-                <div class="relative">
-                    <div class="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl border-2 border-primary/25" aria-hidden="true"></div>
-                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden bg-slate-100"><img src="{{ asset($organizationProfile->leader_photo ?? 'assets/images/logo_poltekkes.webp') }}" alt="{{ $organizationProfile->leader_name }}" class="w-full h-full object-cover"></div>
-                </div>
+            <div class="shrink-0 mx-auto md:mx-0 flex flex-col items-center md:items-start">
+                <div class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden bg-slate-100"><img src="{{ asset($organizationProfile->leader_photo ?? 'assets/images/logo_poltekkes.webp') }}" alt="{{ $organizationProfile->leader_name }}" class="w-full h-full object-cover"></div>
                 <div class="mt-4 text-center md:text-left">
                     <h3 class="text-base sm:text-lg font-bold text-slate-800 leading-tight">{{ $organizationProfile->leader_name }}</h3>
                     <p class="text-xs sm:text-sm text-primary font-medium">{{ $organizationProfile->leader_title }}</p>
