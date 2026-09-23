@@ -1,58 +1,64 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Pusat Penjaminan Mutu Poltekkes Medan
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Website profil dan sistem informasi Pusat Penjaminan Mutu (PPM) Politeknik Kesehatan Kemenkes Medan. Dibangun dengan Laravel 13 + Tailwind CSS.
 
-## About Laravel
+## Fitur
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Halaman publik** (`/`)
+- Hero carousel banner, sambutan pimpinan, layanan, dokumen & SOP (filter kategori, pencarian, unduhan PDF), galeri foto, link terkait (marquee), kontak + peta, profil struktur organisasi & tugas fungsi
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Panel admin** (`/admin`, perlu login)
+- Dashboard ringkasan, Banner Slider, Sambutan & Profil (termasuk struktur organisasi & tupoksi), Layanan, Link Terkait, Dokumen & SOP (+ kategori), Galeri, Personalia
+- Khusus Super Admin: Kelola Pengguna, Identitas Situs
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Dua peran: `superadmin` (akses penuh) dan `admin_operator` (kelola konten, tanpa kelola pengguna/pengaturan).
 
-## Learning Laravel
+## Syarat
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP ^8.3 
+- Composer, Node.js + npm
+- Database: MySQL
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Cara pakai
 
 ```bash
-composer require laravel/boost --dev
+# 1. Install dependensi
+composer install
+npm install
 
-php artisan boost:install
+# 2. Konfigurasi environment
+cp .env.example .env
+php artisan key:generate
+
+# 3. Database (SQLite bawaan — buat filenya dulu bila belum ada)
+touch database/database.sqlite
+php artisan migrate --seed
+
+# 4. Symlink storage agar file upload bisa diakses
+php artisan storage:link
+
+# 5. Build aset frontend
+npm run build
+
+# 6. Jalankan
+php artisan serve          # http://127.0.0.1:8000
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Untuk development dengan hot-reload: `npm run dev` di terminal terpisah selagi `php artisan serve` jalan.
 
-## Contributing
+## Akun bawaan (dari seeder)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Peran | Email | Password |
+|---|---|---|
+| Super Admin | superadmin@poltekkes.ac.id | password |
+| Admin Operator | admin@poltekkes.ac.id | password |
 
-## Code of Conduct
+Segera ganti password kedua akun ini setelah instalasi.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Perintah yang sering dipakai
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan migrate --seed   # migrasi + isi data awal/contoh
+php artisan view:clear       # bersihkan cache view setelah ubah Blade (bila tampilan tidak berubah)
+npm run build                # build ulang CSS/JS production
+```

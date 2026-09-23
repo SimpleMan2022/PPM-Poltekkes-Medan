@@ -59,15 +59,15 @@ Route::middleware('auth')->group(function () {
         Route::patch('services/{service}/toggle', [ServiceController::class, 'toggle'])->name('services.toggle');
         Route::resource('related-links', RelatedLinkController::class)->except(['show']);
         Route::patch('related-links/{related_link}/toggle', [RelatedLinkController::class, 'toggle'])->name('related-links.toggle');
-        Route::resource('document-categories', DocumentCategoryController::class)->except(['show']);
         Route::resource('documents', AdminDocumentController::class)->except(['show']);
         Route::resource('galleries', AdminGalleryController::class)->except(['show']);
-        Route::resource('personnels', PersonnelController::class)->except(['show']);
 
         Route::middleware('superadmin')->group(function () {
             Route::resource('users', UserController::class)->except(['show']);
             Route::get('site-settings', [SiteSettingController::class, 'edit'])->name('site-settings.edit');
             Route::put('site-settings', [SiteSettingController::class, 'update'])->name('site-settings.update');
+            Route::resource('document-categories', DocumentCategoryController::class)->except(['show']);
+            Route::resource('personnels', PersonnelController::class)->except(['show']);
         });
     });
 });
