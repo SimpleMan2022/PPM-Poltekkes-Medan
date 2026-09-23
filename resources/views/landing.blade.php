@@ -181,48 +181,107 @@
     @if($relatedLinks->count() > 0)
     <div class="relative">
         {{-- Fade edges --}}
-        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-r from-slate-50/50 to-transparent z-10 pointer-events-none"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-16 bg-gradient-to-l from-slate-50/50 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute left-0 top-0 bottom-0 w-10 sm:w-20 bg-gradient-to-r from-slate-50/50 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-10 sm:w-20 bg-gradient-to-l from-slate-50/50 to-transparent z-10 pointer-events-none"></div>
 
-        <div class="overflow-hidden">
-            <div class="marquee-track flex gap-6 sm:gap-8 w-max">
-                {{-- Original set --}}
-                @foreach($relatedLinks as $link)
-                <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer" class="shrink-0 flex items-center gap-3 py-3 group">
-                    @if($link->logo)
-                    <img src="{{ asset($link->logo) }}" alt="{{ $link->name }}" class="w-10 h-10 sm:w-12 sm:h-12 object-contain opacity-60 group-hover:opacity-100 transition-opacity">
-                    @else
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                        <svg class="w-5 h-5 text-primary/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.743 4.5M12 3a8.997 8.997 0 0 0-7.743 4.5" />
-                        </svg>
-                    </div>
-                    @endif
-                    <span class="text-xs sm:text-sm font-medium text-slate-500 group-hover:text-primary transition-colors whitespace-nowrap">{{ $link->name }}</span>
-                    <span class="text-slate-300 group-hover:text-primary/30 transition-colors">|</span>
-                </a>
-                @endforeach
-                {{-- Duplicate set for seamless loop --}}
-                @foreach($relatedLinks as $link)
-                <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer" class="shrink-0 flex items-center gap-3 py-3 group" aria-hidden="true">
-                    @if($link->logo)
-                    <img src="{{ asset($link->logo) }}" alt="{{ $link->name }}" class="w-10 h-10 sm:w-12 sm:h-12 object-contain opacity-60 group-hover:opacity-100 transition-opacity">
-                    @else
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                        <svg class="w-5 h-5 text-primary/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.743 4.5M12 3a8.997 8.997 0 0 0-7.743 4.5" />
-                        </svg>
-                    </div>
-                    @endif
-                    <span class="text-xs sm:text-sm font-medium text-slate-500 group-hover:text-primary transition-colors whitespace-nowrap">{{ $link->name }}</span>
-                    <span class="text-slate-300 group-hover:text-primary/30 transition-colors">|</span>
-                </a>
-                @endforeach
+        <div class="marquee-viewport overflow-hidden">
+            <div class="marquee-track flex w-max items-center" id="marqueeTrack">
+                {{-- Base set: JS akan menduplikasinya sampai memenuhi lebar layar, lalu digandakan sekali lagi untuk loop mulus --}}
+                <div class="marquee-set flex items-center shrink-0">
+                    @foreach($relatedLinks as $link)
+                    <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer" class="shrink-0 flex items-center gap-4 mr-10 sm:mr-14 py-3 group">
+                        @if($link->logoUrl())
+                        <img src="{{ $link->logoUrl() }}" alt="{{ $link->name }}" class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain" loading="lazy">
+                        @else
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-primary/10 flex items-center justify-center">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-primary/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.743 4.5M12 3a8.997 8.997 0 0 0-7.743 4.5" />
+                            </svg>
+                        </div>
+                        @endif
+                        <span class="text-base sm:text-lg md:text-xl font-semibold text-slate-600 group-hover:text-primary transition-colors whitespace-nowrap">{{ $link->name }}</span>
+                        <span class="text-slate-300 group-hover:text-primary/30 transition-colors text-xl ml-6 sm:ml-8">|</span>
+                    </a>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
     @endif
 </section>
+
+@push('styles')
+<style>
+    .marquee-viewport {
+        width: 100%;
+    }
+
+    .marquee-track {
+        animation: marquee-scroll linear infinite;
+        will-change: transform;
+    }
+
+    .marquee-track:hover {
+        animation-play-state: paused;
+    }
+
+    @keyframes marquee-scroll {
+        from {
+            transform: translateX(0);
+        }
+
+        to {
+
+            transform: translateX(calc(-1 * var(--marquee-shift, 50%)));
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .marquee-track {
+            animation: none;
+        }
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    (function() {
+        var track = document.getElementById('marqueeTrack');
+        if (!track) return;
+
+        var viewport = track.parentElement;
+        var baseSet = track.querySelector('.marquee-set');
+        if (!baseSet) return;
+
+        var guard = 0;
+        while (baseSet.scrollWidth < viewport.clientWidth && guard < 20) {
+            track.appendChild(baseSet.cloneNode(true));
+            // Gabungkan ulang semua set jadi satu "baseSet" acuan lebar
+            var sets = track.querySelectorAll('.marquee-set');
+            var totalWidth = 0;
+            sets.forEach(function(s) {
+                totalWidth += s.scrollWidth;
+            });
+            baseSet = {
+                scrollWidth: totalWidth
+            }; // objek sementara hanya untuk cek lebar
+            guard++;
+        }
+
+
+        var originalWidth = track.scrollWidth;
+        track.innerHTML += track.innerHTML;
+
+
+        track.style.setProperty('--marquee-shift', originalWidth + 'px');
+
+        var pxPerSecond = 60;
+        var duration = originalWidth / pxPerSecond;
+        track.style.animationDuration = duration + 's';
+    })();
+</script>
+@endpush
 
 <!-- KONTAK -->
 <section id="kontak" class="py-10 sm:py-16 md:py-20">
